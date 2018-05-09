@@ -18,8 +18,11 @@ T=30;
 
 s=tf('s')
 
-tf=[(L*s^2+g)/(M*L*s^4+(m+M)*g*s^2);...
-    -s^2/(M*L*s^4+(m+M)*g*s^2)]
+% tf=[(L*s^2+g)/(M*L*s^4+(m+M)*g*s^2);...
+%     -s^2/(M*L*s^4+(m+M)*g*s^2)]
+
+tf=[(s^2+g)/((m+M-m*L)*s^4+b1*s^3+(m+M)*s^2+b1*g*s);...
+    -s^2/((m+M-m*L)*s^4+b1*s^3+(m+M)*s^2+b1*g*s)]
 
 figure()
 impulse(tf)
