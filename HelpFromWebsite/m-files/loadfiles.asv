@@ -1,0 +1,4 @@
+function Simdata = loadfiles(filename)
+Simdata = load(fullfile('..','..','Simulation_results','initial_angle_14'),'Simulation_results')
+Simdata = Simdata.Simulation_results;
+end
