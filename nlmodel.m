@@ -1,6 +1,7 @@
 clear all
 close all
 clc
+load(fullfile('Simulation_results','Signal_gbn_7.mat'))
 
 %initial parameters
 g=9.81 %gravity in m/s^2
