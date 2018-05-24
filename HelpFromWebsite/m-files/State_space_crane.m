@@ -2,10 +2,11 @@
 close all
 simData = loadfiles('initial_angle_14.mat');
 %plot_timeseries(simData)
-beginSample  = 162;
-timevector   =  simData.Time(beginSample:end);
+beginSample  = 326;%162;
+timevector   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
 positiondata = -simData.Data(beginSample:end,1);
 angledata    = -simData.Data(beginSample:end,5);
+angledata = angledata - mean(angledata);
 figure(1)
 subplot(2,1,1)
 plot(timevector,positiondata)
@@ -20,19 +21,13 @@ k_m = -10;  % Nm
 b_x = 10;  % kgs-1
 b_phi = 0.9; %pdf value: 0.75;% kgs-1
 g = 9.81;
+Ts=0.01;
 
-A = [0,0,1,0;
-    0,0,0,1;
-    0,m*g/M,-b_x,-m*b_phi;
-    0,(-m*g-M*g)/(M*L),-b_x,(-m*b_phi-M*b_phi)/(M*L)];
-B = [0;0;1/M;1/(M*L)];
-C = [1,0,0,0;
-    0,1,0,0];
-D = [0;0];
-% figure
- Crane = ss(A,B,C,D);
+linear_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
+CraneModel = greyest(
 % step(Crane);
 % figure
 % impulse(Crane);
-figure
-initial(Crane,[0,deg2rad(10),0,0])
+
+% figure
+ modelData = initial(Crane,[0,deg2rad(10),0,0],timevector)
