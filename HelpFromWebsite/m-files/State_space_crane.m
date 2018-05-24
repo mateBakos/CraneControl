@@ -23,11 +23,15 @@ b_phi = 0.9; %pdf value: 0.75;% kgs-1
 g = 9.81;
 Ts=0.01;
 
+
 linear_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
 CraneModel = greyest(
+
+linear_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
+ modelData = initial(Crane,[0,deg2rad(10),0,0],timevector)
+
 % step(Crane);
 % figure
 % impulse(Crane);
 
 % figure
- modelData = initial(Crane,[0,deg2rad(10),0,0],timevector)
