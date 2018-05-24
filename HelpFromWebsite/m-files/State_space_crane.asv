@@ -29,29 +29,22 @@ ydata = iddata([positiondata,angledata],zeros(size(positiondata)),h,'Name','Hand
     'OutputName',{'Position','Angle'}, ...
     'OutputUnit',{'m','rad'});
 %CraneModel = greyest(ydata,linear_model,'InitialState','estimate','Display','on');
-%% 
-close all
-[CraneModel,estimated_initial_state] = ssest(ydata,20,'InitialState','estimate','Display','on')
+
+[CraneModel,estimated_initial_state] = ssest(ydata,4,'InitialState','estimate','Display','on')
 % modelData = initial(Crane,[0,deg2rad(10),0,0],timevector)
 EstSSCrane = ss(CraneModel(1,1).a,CraneModel(1,1).b,[CraneModel(1,1).c;CraneModel(2,1).c],0)
-%%Plot results
-figure
-hold on
-[data,data2]=initial(EstSSCrane,estimated_initial_state,timevector(end));
-%subplot(2,1,1)
-plot(data2,data(:,1))
-plot(timevector,positiondata)
 
 figure
 hold on
-%subplot(2,1,2)
-plot(data2,data(:,2))
+initial(EstSSCrane,estimated_initial_state,);
+hold on 
+subplot(2,1,1)
+plot(timevector,positiondata)
+hold on
+subplot(2,1,2)
 plot(timevector,angledata)
-%compare([positiondata,angledata],data)
 % step(Crane);
 % figure
 % impulse(Crane);
 
 % figure
-
-
