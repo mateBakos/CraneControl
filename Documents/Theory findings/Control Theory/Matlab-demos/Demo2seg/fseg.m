@@ -1,4 +1,4 @@
-function [dx,A,B]=f(x);
+function [dx,A,B]=fseg(x)
 %x=[p;theta;dp;dtheta;u;T];
 g=9.81;
 %segway

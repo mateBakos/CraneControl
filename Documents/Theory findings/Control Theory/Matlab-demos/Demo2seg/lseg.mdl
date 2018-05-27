@@ -53,7 +53,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [249.0, 45.0, 886.0, 526.0]
+      Location		      [382.0, 56.0, 886.0, 526.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -62,7 +62,7 @@ Model {
 	DockPosition		"Left"
 	Width			[50]
 	Height			[50]
-	Filter			[8]
+	Filter			[9]
       }
       Object {
 	$PropName		"ExplorerBarInfo"
@@ -113,7 +113,7 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "nemezis"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun May 27 14:20:14 2018"
+  LastModifiedDate	  "Sun May 27 16:04:24 2018"
   RTWModifiedTimeStamp	  449331611
   ModelVersionFormat	  "1.%<AutoIncrement:53>"
   SampleTimeColors	  off
@@ -1064,7 +1064,7 @@ Model {
   }
   System {
     Name		    "lseg"
-    Location		    [249, 45, 1135, 571]
+    Location		    [382, 56, 1268, 582]
     Open		    on
     PortBlocksUseCompactNotation off
     SetDomainSpec	    off

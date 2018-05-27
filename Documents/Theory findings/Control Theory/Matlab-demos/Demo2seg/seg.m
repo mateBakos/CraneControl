@@ -33,7 +33,7 @@ T=T+10*(t<10).*(t>8);
 in.time=t;
 in.signals.values=[u T];
 in.signals.dim=2;
-x0=[0;2*2*pi/360;0;0];
+x0=[0;1*pi/360*0.95;0;0];
 sim('lseg')
 tl=out.time;
 ly=out.signals.values;

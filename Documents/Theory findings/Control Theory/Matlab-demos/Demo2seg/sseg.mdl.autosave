@@ -1,12 +1,12 @@
 Model {
   Name			  "sseg"
   Version		  9.1
-  SavedCharacterEncoding  "UTF-8"
+  SavedCharacterEncoding  "windows-1252"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.45"
+    ComputedModelVersion    "1.44"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -111,11 +111,11 @@ Model {
   Creator		  "cscherer"
   UpdateHistory		  "UpdateHistoryNever"
   ModifiedByFormat	  "%<Auto>"
-  LastModifiedBy	  "nemezis"
+  LastModifiedBy	  "carsten"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sun May 27 16:04:14 2018"
+  LastModifiedDate	  "Tue Sep 22 19:46:25 2009"
   RTWModifiedTimeStamp	  449337778
-  ModelVersionFormat	  "1.%<AutoIncrement:45>"
+  ModelVersionFormat	  "1.%<AutoIncrement:44>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1068,11 +1068,9 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "80"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "10"
     Block {
       BlockType		      Sum
       Name		      "Add"
-      SID		      "1"
       Ports		      [2, 1]
       Position		      [155, 125, 185, 160]
       ZOrder		      -1
@@ -1084,7 +1082,6 @@ Model {
     Block {
       BlockType		      MATLABFcn
       Name		      "F*(x-xe)"
-      SID		      "2"
       Ports		      [1, 1]
       Position		      [135, 55, 195, 85]
       ZOrder		      -2
@@ -1094,7 +1091,6 @@ Model {
     Block {
       BlockType		      Gain
       Name		      "Gain"
-      SID		      "9"
       Position		      [315, 120, 345, 150]
       ZOrder		      2
       Gain		      "[A B]"
@@ -1106,7 +1102,6 @@ Model {
     Block {
       BlockType		      Gain
       Name		      "Gain1"
-      SID		      "10"
       Position		      [485, 120, 515, 150]
       ZOrder		      3
       Gain		      "[C D]"
@@ -1118,7 +1113,6 @@ Model {
     Block {
       BlockType		      FromWorkspace
       Name		      "Input"
-      SID		      "3"
       Position		      [20, 138, 85, 162]
       ZOrder		      -3
       VariableName	      "in"
@@ -1132,7 +1126,6 @@ Model {
     Block {
       BlockType		      Mux
       Name		      "Mux"
-      SID		      "4"
       Ports		      [2, 1]
       Position		      [245, 116, 250, 154]
       ZOrder		      -4
@@ -1143,7 +1136,6 @@ Model {
     Block {
       BlockType		      ToWorkspace
       Name		      "Output"
-      SID		      "5"
       Ports		      [1]
       Position		      [560, 120, 620, 150]
       ZOrder		      -5
@@ -1155,7 +1147,6 @@ Model {
     Block {
       BlockType		      MATLABFcn
       Name		      "f(x,u)"
-      SID		      "6"
       Ports		      [1, 1]
       Position		      [455, -10, 515, 20]
       ZOrder		      -6
@@ -1164,7 +1155,6 @@ Model {
     Block {
       BlockType		      MATLABFcn
       Name		      "h(x,u)"
-      SID		      "7"
       Ports		      [1, 1]
       Position		      [560, -10, 620, 20]
       ZOrder		      -7
@@ -1173,7 +1163,6 @@ Model {
     Block {
       BlockType		      Reference
       Name		      "x0"
-      SID		      "8"
       Ports		      [1, 1]
       Position		      [300, 52, 365, 88]
       ZOrder		      -8
