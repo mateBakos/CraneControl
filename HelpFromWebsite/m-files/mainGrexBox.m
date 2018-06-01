@@ -1,23 +1,28 @@
 %% Import Simulation data;
-close all
-clear all
+%close all
+%clear all
 clc
 
-simData = loadfiles('Bernoulli_1m_10.mat');
+simData = loadfiles('Handmade_bernoulli_16.mat');
+%simData = loadfiles('Bernoulli_1m_9.mat');
+%'Handmade_bernoulli_16.mat'
 %'Bernoulli_1m_9.mat'
 %'Signal_xSin_yCos_4.mat'
 %'initial_angle_14.mat'
-plot_timeseries(simData)
+%plot_timeseries(simData)
 
-beginSample  = 1;%162;
+beginSample  = 1;
 time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
 position = simData.Data(beginSample:end,2);
 cable = simData.Data(beginSample:end,3);
 inputx = simData.Data(beginSample:end,4);
 inputy = simData.Data(beginSample:end,5);
-angle    = -simData.Data(beginSample:end,1);
-%angle = angle - mean(angle);
+angle    = simData.Data(beginSample:end,1);
+angle = angle - angle(1);
 
+%% Filtering
+% [b,a]=butter(20,0.1)
+% angle=filtfilt(b,a,angle)
 
 % beginSample  = 376;%326;%162;
 % time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
@@ -51,13 +56,14 @@ parameters=[M,m,L,k_m,b_x,b_phi];
 [a,b,c,d]=GreyBoxDiffModel(parameters,Ts,g)
 init_sys = idgrey('GreyBoxDiffModel',parameters,'c',g,0);
 %opt=greyestOptions('InitialState','estimate')
-opt=greyestOptions('Focus','simulation','InitialState','zero','Display','on')
+opt=greyestOptions('Focus','simulation','InitialState','zero')%,'Display','on')
 %opt.EnforceStability=true
 GreyBox = greyest(data,init_sys,opt);
 
+figure(1234565)
 impulse(ss(a,b,c,d))
 
-figure(15)
+figure(101)
 compare(data,GreyBox)
 
 
