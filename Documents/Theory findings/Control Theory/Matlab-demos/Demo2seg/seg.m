@@ -1,10 +1,11 @@
+clear all ;close all;
 Fontsize=16;
 set(0,'DefaultLineLineWidth',1.5);
 set(0,'DefaultAxesFontSize',Fontsize);
 n=4;integrator=ss(zeros(n),eye(n),eye(n),zeros(n));
-Te=20;t=linspace(0,Te,100*Te)';
+Te=35;t=linspace(0,Te,100*Te)';
 %% Linearization 
-xe=[0;0;0;0];ue=[0;0];
+xe=[0;1*pi/360;0;0];ue=[0;0];
 [dx,A,B]=fseg([xe;ue]);
 [ye,C,D]=hseg([xe;ue]);
 sy=ss(A,B,C,D);
@@ -22,8 +23,10 @@ p=conv(p1,p2);
 Fp=place(A,B1,roots(p));
 eig(A-B1*Fp)
 Fp
-Q=eye(4);Q(1,1)=100;
+Q=eye(4);Q(1,1)=100; Q(2,2) = 1000;
 [Fl,P,E]=lqr(A,B(:,1),Q,.1)
+Q=eye(4);Q(1,1)=1;
+[Fl2,P2,E2]=lqr(A,B(:,1),Q,.1)
 %
 figure(1);clf
 F=Fp
@@ -34,26 +37,37 @@ in.time=t;
 in.signals.values=[u T];
 in.signals.dim=2;
 x0=[0;1*pi/360*0.95;0;0];
-sim('lseg')
-tl=out.time;
-ly=out.signals.values;
-subplot(411);plot(tl,ly(:,3),tl,ly(:,4),'r');title('control input and disturbance torque (red)');hold on;grid on;
-subplot(412);plot(tl,ly(:,1));title('p');hold on;grid on;
-subplot(413);plot(tl,ly(:,2));title('\theta');hold on;grid on;
+% sim('lseg')
+% tl=out.time;
+% ly=out.signals.values;
+% subplot(311);plot(tl,ly(:,3),tl,ly(:,4),'r');title('control input and disturbance torque (red)');hold on;grid on;
+% subplot(312);plot(tl,ly(:,1));title('p');hold on;grid on;
+% subplot(313);plot(tl,ly(:,2));title('\theta');hold on;grid on;
+
 %%
 sim('sseg');
 to=out.time;
 y=out.signals.values;
-subplot(411);plot(to,y(:,3),'b',to,y(:,4),'r');hold on;
-subplot(412);plot(to,y(:,1),'b');title('p');hold on;
-subplot(413);plot(to,y(:,2),'b');title('\theta');hold on;
+subplot(311);plot(to,y(:,3),'b',to,y(:,4),'r');hold on;
+subplot(312);plot(to,y(:,1),'b');title('p');hold on;
+subplot(313);plot(to,y(:,2),'b');title('\theta');hold on;
 F=Fl
 sim('sseg');
 to=out.time;
 y=out.signals.values;
-subplot(411);plot(to,y(:,3),'g',to,y(:,4),'r');hold on;
-subplot(412);plot(to,y(:,1),'g');title('p');hold on;
-subplot(413);plot(to,y(:,2),'g');title('\theta');hold on;
+subplot(311);plot(to,y(:,3),'g',to,y(:,4),'r');hold on;
+subplot(312);plot(to,y(:,1),'g');title('p');hold on;
+subplot(313);plot(to,y(:,2),'g');title('\theta');hold on;
+%% Test higher Q matrix
+F=Fl2
+sim('sseg');
+to=out.time;
+y=out.signals.values;
+subplot(311);plot(to,y(:,3),'m',to,y(:,4),'r');hold on;
+subplot(312);plot(to,y(:,1),'m');title('p');hold on;
+subplot(313);plot(to,y(:,2),'m');title('\theta');hold on;
+legend('SSEG pole placement','LQR low Q','LQR High Q')
+
 %P epdfdelft('fig1')
 %%
 Ll=ss(A,B1,Fl,0);
@@ -86,4 +100,7 @@ G=ss(A,B1,C,zeros(size(C,1),size(B1,2)));
 zero(G)
 E
 
+close(2);
+close(3);
+figure(1);
 

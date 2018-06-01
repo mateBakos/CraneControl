@@ -3,20 +3,29 @@ close all
 clear all
 clc
 
-simData = loadfiles('initial_angle_14.mat');
+simData = loadfiles('Bernoulli_1m_10.mat');
 %'Signal_xSin_yCos_4.mat'
 %'initial_angle_14.mat'
 plot_timeseries(simData)
 
-beginSample  = 376;%326;%162;
+beginSample  = 1;%162;
 time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
-position = -simData.Data(beginSample:end,1);
-position = position - position(end);
-cable = simData.Data(beginSample:end,2);
-inputx = simData.Data(beginSample:end,3);
-inputy = simData.Data(beginSample:end,4);
-angle    = -simData.Data(beginSample:end,5);
-angle = angle - mean(angle);
+position = simData.Data(beginSample:end,2);
+cable = simData.Data(beginSample:end,3);
+inputx = simData.Data(beginSample:end,4);
+inputy = simData.Data(beginSample:end,5);
+angle    = -simData.Data(beginSample:end,1);
+%angle = angle - mean(angle);
+% 
+% beginSample  = 376;%326;%162;
+% time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
+% position = -simData.Data(beginSample:end,1);
+% position = position - position(end);
+% cable = simData.Data(beginSample:end,2);
+% inputx = simData.Data(beginSample:end,3);
+% inputy = simData.Data(beginSample:end,4);
+% angle    = -simData.Data(beginSample:end,5);
+% angle = angle - mean(angle);
 % figure(1)
 % subplot(2,1,1)
 % plot(timevector,positiondata)
@@ -80,23 +89,24 @@ compareOptions('InitialCondition', 'model'));
 
 
 %Greybox_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
+%% 
 
-% 
-% Blackbox_model = ssest(data,100,'InitialState','estimate','Display','on');
-% 
-% 
-% 
-% % opt = greyestOptions('InitialState','estimate','Display','on');
-% % opt.EnforceStability = true;
-% % Greybox_model = greyest(data,Greybox_model,opt);
+
+Blackbox_model = ssest(data,4,'InitialState','estimate','Display','on');
+
+
+
+% opt = greyestOptions('InitialState','estimate','Display','on');
+% opt.EnforceStability = true;
+% Greybox_model = greyest(data,Greybox_model,opt);
+figure
+ compare(data,Blackbox_model)
+ 
+ %save('initial_angle_14_Blackbox_model.mat','Blackbox_model')
+
+% step(Crane);
 % figure
-%  compare(data,Blackbox_model)
-%  
-%  save('initial_angle_14_Blackbox_model.mat','Blackbox_model')
-% 
-% % step(Crane);
-% % figure
-% % impulse(Crane);
-% 
-%  %figure
-%  %initial(Blackbox_model,[0,deg2rad(10),0,0])
+% impulse(Crane);
+
+ %figure
+ %initial(Blackbox_model,[0,deg2rad(10),0,0])
