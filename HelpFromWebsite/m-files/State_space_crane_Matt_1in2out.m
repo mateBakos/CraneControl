@@ -3,20 +3,42 @@ close all
 clear all
 clc
 
+<<<<<<< HEAD
 simData = loadfiles('Handmade_bernoulli_16.mat');
+=======
+simData = loadfiles('Bernoulli_1m_10.mat');
+>>>>>>> 8b0252b2017a514304e9665b74559b5309d578cd
 %'Signal_xSin_yCos_4.mat'
 %'initial_angle_14.mat'
 plot_timeseries(simData)
 
-beginSample  = 376;%326;%162;
+beginSample  = 1;%162;
 time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
+<<<<<<< HEAD
 position = -simData.Data(beginSample:end,2);
 position = position - position(end);
+=======
+position = simData.Data(beginSample:end,2);
+>>>>>>> 8b0252b2017a514304e9665b74559b5309d578cd
 cable = simData.Data(beginSample:end,3);
 inputx = simData.Data(beginSample:end,4);
 inputy = simData.Data(beginSample:end,5);
 angle    = -simData.Data(beginSample:end,1);
+<<<<<<< HEAD
 angle = angle - mean(angle);
+=======
+%angle = angle - mean(angle);
+% 
+% beginSample  = 376;%326;%162;
+% time   =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
+% position = -simData.Data(beginSample:end,1);
+% position = position - position(end);
+% cable = simData.Data(beginSample:end,2);
+% inputx = simData.Data(beginSample:end,3);
+% inputy = simData.Data(beginSample:end,4);
+% angle    = -simData.Data(beginSample:end,5);
+% angle = angle - mean(angle);
+>>>>>>> 8b0252b2017a514304e9665b74559b5309d578cd
 % figure(1)
 % subplot(2,1,1)
 % plot(timevector,positiondata)
@@ -80,7 +102,9 @@ compareOptions('InitialCondition', 'model'));
 
 
 %Greybox_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
+%% 
 
+<<<<<<< HEAD
 %% Blackbox model
 %close all
 
@@ -125,4 +149,21 @@ compare(data,Blackbox_model)
 % impulse(Blackbox_model,10);
 
 %figure
+=======
+Blackbox_model = ssest(data,4,'InitialState','estimate','Display','on');
+
+% opt = greyestOptions('InitialState','estimate','Display','on');
+% opt.EnforceStability = true;
+% Greybox_model = greyest(data,Greybox_model,opt);
+figure
+ compare(data,Blackbox_model)
+ 
+ %save('initial_angle_14_Blackbox_model.mat','Blackbox_model')
+
+% step(Crane);
+% figure
+% impulse(Crane);
+
+ %figure
+>>>>>>> 8b0252b2017a514304e9665b74559b5309d578cd
  %initial(Blackbox_model,[0,deg2rad(10),0,0])

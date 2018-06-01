@@ -2,11 +2,12 @@
 close all
 clear all
 clc
-
-simData = loadfiles('Bernoulli_1m_10.mat');
+%% Dataset 1 
+simData = loadfiles('Handmade_bernoulli_17.mat');
 %'Bernoulli_1m_9.mat'
 %'Signal_xSin_yCos_4.mat'
 %'initial_angle_14.mat'
+%Handmade_bernoulli_17
 plot_timeseries(simData)
 
 beginSample  = 1;%162;
@@ -16,6 +17,9 @@ cable = simData.Data(beginSample:end,3);
 inputx = simData.Data(beginSample:end,4);
 inputy = simData.Data(beginSample:end,5);
 angle    = -simData.Data(beginSample:end,1);
+
+
+%%
 %angle = angle - mean(angle);
 
 % beginSample  = 326;%162;
