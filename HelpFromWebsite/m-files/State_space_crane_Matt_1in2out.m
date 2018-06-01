@@ -91,10 +91,7 @@ compareOptions('InitialCondition', 'model'));
 %Greybox_model = idgrey('LinCraneSS',{M,m,L,k_m,b_x,b_phi},'d');
 %% 
 
-
 Blackbox_model = ssest(data,4,'InitialState','estimate','Display','on');
-
-
 
 % opt = greyestOptions('InitialState','estimate','Display','on');
 % opt.EnforceStability = true;

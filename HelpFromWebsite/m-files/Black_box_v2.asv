@@ -1,0 +1,43 @@
+%% Import Simulation data;
+%close all
+clear all
+clc
+simData = loadfiles('Handmade_bernoulli_17.mat');
+%plot_timeseries(simData)
+
+beginSample  = 1;%162;
+time     =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
+position = simData.Data(beginSample:end,2);
+inputx  = simData.Data(beginSample:end,4);
+angle1  = -simData.Data(beginSample:end,1);
+angle   =  detrend(angle1);
+Ts=0.01;
+%% Building Model
+data = iddata([position,angle],inputx,Ts,'Name','Measurement Data',...
+    'OutputName',{'Position','Angle'}, ...
+    'OutputUnit',{'m','rad'},...
+    'InputName',{'x-velocity'}, ...
+    'InputUnit',{'m/s'});
+
+%% 
+Weights = 10:2:30;
+for i = 1:size(weights(
+disp(['Iteration ',num2str(i)])
+opt = ssestOptions;
+%opt.WeightingFilter = [0 10];
+opt.OutputWeight = [1 0;0 30];
+%opt.Focus = 'simulation'; % comment out for Prediction
+%opt.InitialState = 'estimate';
+Blackbox_model = ssest(data,4,'Display','off',opt); %6 works well
+figure
+[~,FIT(i,:),~] = compare(data,Blackbox_model);
+zeropolegain = tf(zpk(Blackbox_model))
+pole(zeropolegain)
+TargetDoublePoleGain = (0.5*2*pi)^2;
+%% 
+% step(Crane);
+figure
+impulse(Blackbox_model,10);
+
+ %figure
+ %initial(Blackbox_model,[0,deg2rad(10),0,0])
