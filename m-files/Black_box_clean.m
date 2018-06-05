@@ -9,7 +9,7 @@ validateFlag=1;
 
 % Validation Files 13-14
 % Identification 7-10
-measurementNum = 10;
+measurementNum = 8;
 validationNum = 14;
 
 % choose 4th or 6th order
