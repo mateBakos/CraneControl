@@ -1,0 +1,56 @@
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 21_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 94.1444 %
+   Angle: 50.1651 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 22_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 97.034 %
+   Angle: 56.0404 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 4
+   Measurement used: 21_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 94.3537 %
+   Angle: 41.9416 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 4
+   Measurement used: 22_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 96.9867 %
+   Angle: 54.3693 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 21_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 94.4603 %
+   Angle: 39.8241 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 22_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 97.0129 %
+   Angle: 49.1731 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 21_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 94.4826 %
+   Angle: 39.7628 %
+>> Black_box_clean
+Validating model!
+   Order of model used: 6
+   Measurement used: 22_Validation_joystick.mat
+Model accuracy to filtered measurement:
+   Position: 96.9892 %
+   Angle: 49.7355 %

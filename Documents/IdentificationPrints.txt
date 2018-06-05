@@ -1,0 +1,64 @@
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 4
+   Measurement used: 7 16_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas7_order4.mat
+Model accuracy to filtered measurement:
+   Position: 99.0654 %
+   Angle: -27.9846 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 6
+   Measurement used: 7 16_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas7_order6.mat
+Model accuracy to filtered measurement:
+   Position: 98.9874 %
+   Angle: 12.9276 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 4
+   Measurement used: 8 17_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas8_order4.mat
+Model accuracy to filtered measurement:
+   Position: 93.6509 %
+   Angle: 60.3626 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 6
+   Measurement used: 8 17_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas8_order6.mat
+Model accuracy to filtered measurement:
+   Position: 98.6649 %
+   Angle: 75.0282 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 4
+   Measurement used: 9 18_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas9_order4.mat
+Model accuracy to filtered measurement:
+   Position: 98.8917 %
+   Angle: 76.288 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 6
+   Measurement used: 9 18_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas9_order6.mat
+Model accuracy to filtered measurement:
+   Position: 98.9527 %
+   Angle: 78.2387 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 4
+   Measurement used: 10 19_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas10_order4.mat
+Model accuracy to filtered measurement:
+   Position: 85.7514 %
+   Angle: -81.5565 %
+>> Black_box_clean
+Estimating model!
+   Order of model estimation: 6
+   Measurement used: 10 19_Handmade_bernoulli.mat
+Model saved as: BlackBoxID_meas10_order6.mat
+Model accuracy to filtered measurement:
+   Position: 99.0188 %
+   Angle: 78.3376 %
