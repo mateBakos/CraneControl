@@ -20,7 +20,7 @@ data = iddata([position,angle],inputx,Ts,'Name','Measurement Data',...
     'InputUnit',{'m/s'});
 
 %% 
-Weights = [15,16,26];
+Weights = 15%[15,16,26];
 for i = 1:size(Weights,2)
 disp(['Iteration ',num2str(i)])
 opt = ssestOptions;
