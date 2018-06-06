@@ -2,7 +2,7 @@ close all
 clear all 
 clc
 
-xinit=[0,0,0,0];
+xinit=[0,0,0,0,0,0];%[?,?,position,?,?,?]
 Ts=0.01
 
 load('BlackBoxID_meas8_order6')
@@ -10,10 +10,10 @@ Plant = ss(Blackbox_model);
 plantPosition = Plant(1,1);
 plantAngle = Plant(2,1);
 
-figure
-margin(plantPosition)
-figure
-margin(plantAngle)
+% figure
+% margin(plantPosition)
+% figure
+% margin(plantAngle)
 % DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
 % [A,B,C,D] = ssdata(DiscPlant);
 [A,B,C,D] = ssdata(Plant);
@@ -31,13 +31,13 @@ R=1;
 
 %Lcorr=pinv(dcgain(ss(A-B*K,B,C,D,Ts)))
 Lcorr=1
-
-
-figure
-impulse(Blackbox_model,5)
-
-figure
-step(Blackbox_model,5)
-
-
-
+% 
+% 
+% figure
+% impulse(Blackbox_model,5)
+% 
+% figure
+% step(Blackbox_model,5)
+% 
+% 
+% 
