@@ -21,6 +21,12 @@ B=DiscPlant.B;
 C=DiscPlant.C;
 D=DiscPlant.D;
 
+load('BlackBoxID_meas9_order4')
+Plant = ss(Blackbox_model);
+[A,B,C,D] = ssdata(Plant);
+gainAngle = 0;
+gainPos   = 1;
+
 K=place(A,B,dp)
 
 L=(place(A',C',dp/1.5))'
