@@ -13,7 +13,7 @@ measurementNum = 8;
 validationNum = 14;
 
 % choose 4th or 6th order
-orderNum = 4; 
+orderNum = 6; 
 
 % change name to get around overwriting models
 saveName=['BlackBoxID_disc_meas',num2str(measurementNum),'_order',num2str(orderNum),'.mat'];

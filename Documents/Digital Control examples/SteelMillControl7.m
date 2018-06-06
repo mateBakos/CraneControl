@@ -24,11 +24,17 @@ B=DiscPlant.B
 C=DiscPlant.C
 D=DiscPlant.D
 
+load('BlackBoxID_meas9_order4')
+Plant = ss(Blackbox_model);
+[A,B,C,D] = ssdata(Plant);
+gainAngle = 0;
+gainPos   = 1;
+
 rho=1e12; % e10 e12 e15
 
 Q=rho*C'*C
 R=1;
-[K,~,~]=dlqr(A,B,Q,R)
+[K,~,~]=lqr(A,B,Q,R)
 
 Lcorr=inv(dcgain(ss(A-B*K,B,C,D,h)))
 
