@@ -2,8 +2,8 @@ close all
 clear all 
 clc
 
-xinit=[0,0,0,0];
-Ts=0.15
+xinit=[0,0,0,0,0,0];
+Ts=0.01;
 
 load('BlackBoxID_meas8_order6')
 Plant = ss(Blackbox_model);
@@ -23,8 +23,8 @@ Q=rho*C'*C
 R=1;
 [F,~,~]=dlqr(A,B,Q,R)
 
-Lcorr1=inv(dcgain(ss(A-B*F,B,C(:,1),D,Ts)))
-Lcorr2=inv(dcgain(ss(A-B*F,B,C(:,2),D,Ts)))
+Lcorr1=inv(dcgain(ss(A-B*F,B,C(1,:),D(1),Ts)))
+Lcorr2=inv(dcgain(ss(A-B*F,B,C(2,:),D(2),Ts)))
 Lcorr=[Lcorr1;Lcorr2]
 
 % figure
