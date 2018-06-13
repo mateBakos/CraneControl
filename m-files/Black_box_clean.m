@@ -5,7 +5,7 @@ clear all
 
 
 %% Config variables
-validateFlag=0;
+validateFlag=1;
 
 % Validation Files 13-14
 % Identification 7-10
@@ -13,10 +13,10 @@ measurementNum = 8;
 validationNum = 14;
 
 % choose 4th or 6th order
-orderNum = 4; 
+orderNum = 6; 
 
 % change name to get around overwriting models
-saveName=['BlackBoxID_disc_meas',num2str(measurementNum),'_order',num2str(orderNum),'.mat'];
+saveName=['BlackBoxID_meas',num2str(measurementNum),'_order',num2str(orderNum),'.mat'];
 %% Load files
 simNames = loadmeasurementnames();
 
@@ -52,7 +52,7 @@ time     =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
 position = simData.Data(beginSample:end,2);
 inputx  = simData.Data(beginSample:end,4);
 angle1  = -simData.Data(beginSample:end,1);
-angle1 = angle1 - angle1(1);
+%angle1 = angle1 - angle1(1);
 angle   =  detrend(angle1);
 Ts=0.01;
 

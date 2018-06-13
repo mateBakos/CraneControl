@@ -2,13 +2,16 @@ close all
 clear all 
 clc
 
-xinit=[0,0,0,0,0,0];%[?,?,position,?,?,?]
+xinit=[0.1,0,0,0];
 Ts=0.01
 
 load('BlackBoxID_meas8_order6')
-Plant = ss(Blackbox_model);
-plantPosition = Plant(1,1);
-plantAngle = Plant(2,1);
+Plant6 = ss(Blackbox_model);
+load('BlackBoxID_meas9_order4')
+Plant4 = ss(Blackbox_model);
+
+plantPosition = Plant4(1,1);
+plantAngle = Plant4(2,1);
 
 % figure
 % margin(plantPosition)
@@ -16,18 +19,22 @@ plantAngle = Plant(2,1);
 % margin(plantAngle)
 % DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
 % [A,B,C,D] = ssdata(DiscPlant);
-[A,B,C,D] = ssdata(Plant);
-gainAngle = 0;
-gainPos   = 1;
-
+[A,B,C,D] = ssdata(Plant6);
+[A, B, C, D, P] = canon(A, B, C, D, 'companion')
+[Ao,Bo,Co,Do] = ssdata(Plant4);
+[Ao, Bo, Co, Do, Po] = canon(Ao, Bo, Co, Do, 'companion')
+%compan(Po)
 rho=1; % e10 e12 e15
 
-poles=[0,-15, -20 + 10i, -20 - 10i, -30, -31]
-L=(place(A',C',poles)')
+poles=0.1*[-15, -16, -17, -18]
+L=(place(Ao',Co',poles)')
 
-Q=rho*C'*C
+Q=[10 0 0 0;...
+    0 1 0 0;
+    0 0 1 0;
+    0 0 0 1];%rho*Co'*Co
 R=1;
-[F,~,~]=lqr(A,B,Q,R)
+[F,~,~]=lqr(Ao,Bo,Q,R)
 
 %Lcorr=pinv(dcgain(ss(A-B*K,B,C,D,Ts)))
 Lcorr=1

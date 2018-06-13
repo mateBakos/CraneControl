@@ -2,10 +2,12 @@ close all
 clear all 
 clc
 
-xinit=[0,0,0,0,0,0];%[?,?,position,?,?,?]
+xinit=[0,0,0,0]%[0.1,1,2,0.5,0.2,0.7];%[?,?,position,?,?,?]
 Ts=0.01
 
 load('BlackBoxID_meas8_order6')
+load('BlackBoxID_meas9_order4')
+
 Plant = ss(Blackbox_model);
 
 DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
@@ -16,10 +18,10 @@ gainPos   = 1;
 
 rho=1; % e10 e12 e15
 
-poles=[0,-15,-20+10i,-20-10i,-30,-31]
+poles=[-3,-5,-11,-12]
 L=(place(A',C',poles)')
 
-Q=rho*C'*C
+Q=eye(size(A))%rho*C'*C
 R=1;
 [F,~,~]=dlqr(A,B,Q,R)
 
