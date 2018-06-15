@@ -30,7 +30,7 @@ end
     
 simData = loadfiles(measChosen{1});
 
-
+plot_timeseries(simData)
 
 if validateFlag==0
     titleTxt=['Estimation, order ',num2str(orderNum),' file ',measChosen{1}];

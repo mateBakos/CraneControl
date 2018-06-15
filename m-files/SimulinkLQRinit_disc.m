@@ -2,41 +2,38 @@ close all
 clear all 
 clc
 
-xinit=[0,0,0,0]%[0.1,1,2,0.5,0.2,0.7];%[?,?,position,?,?,?]
+xinit=[0 0 0 0];
 Ts=0.01
 
 load('BlackBoxID_meas8_order6')
+Plant6 = c2d(ss(Blackbox_model),Ts,'tustin');
 load('BlackBoxID_meas9_order4')
+Plant4 = c2d(ss(Blackbox_model),Ts,'tustin');
 
-Plant = ss(Blackbox_model);
+% DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
+[A,B,C,D] = ssdata(Plant6);
+[Ao,Bo,Co,Do] = ssdata(Plant4);
 
-DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
-[A,B,C,D] = ssdata(DiscPlant);
-%[A,B,C,D] = ssdata(Plant);
-gainAngle = 0;
-gainPos   = 1;
+[A,B,C,~,~] = obsvf(A,B,C)
+[Ao,Bo,Co,~,~] = obsvf(Ao,Bo,Co)
 
-rho=1; % e10 e12 e15
+%[kalmf,L,P,M] = kalman(Plant4,1,eye(2));
 
-poles=[-3,-5,-11,-12]
-L=(place(A',C',poles)')
+rho=1; % 0.042177e10 e12 e15
 
-Q=eye(size(A))%rho*C'*C
+poles=[-15, -16, -17, -18];
+L=(place(Ao',Co',exp(poles*Ts))');
+
+Q= diag([1,1,1,1])
+% [1 0 0 0 0 0;...
+%     0 1 0 0 0 0;
+%     0 0 1 0 0 0;
+%     0 0 0 1 0 0;
+%     0 0 0 0 1 0;
+%     0 0 0 0 0 1];
+
 R=1;
-[F,~,~]=dlqr(A,B,Q,R)
 
-Lcorr1=inv(dcgain(ss(A-B*F,B,C(1,:),D(1),Ts)))
-Lcorr2=inv(dcgain(ss(A-B*F,B,C(2,:),D(2),Ts)))
-Lcorr=[Lcorr1;Lcorr2]
-Lx=dcgain(ss(A-B*F,B,C,D,Ts))
-Lcorr=inv(Lx(1))
+[F,~,~]=dlqr(Ao,Bo,Q,R);
 
-
-
-% figure
-% impulse(Blackbox_model)
-% 
-% figure
-% step(Blackbox_model)
-
-
+Lcorr=1;
