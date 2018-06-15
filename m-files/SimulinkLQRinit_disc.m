@@ -38,10 +38,6 @@ R=1;
 
 RefFWD=[0;0;0;1/1209]
 
-[0,2.5,5,7.5,10,12.5,15,17.5,20]
-[0, 0 ,1, 1, 0, 0,  -1, -1 ,0]
-
-
 %Lcorr=inv(dcgain(ss(Ao-Bo*F,Bo,Co,Do,Ts)))
 
 cd ../SimulinkModels/
