@@ -3,7 +3,7 @@ clear all
 clc
 
 xinit=[0 0 0 0];
-Ts=0.01
+Ts=0.2
 
 load('BlackBoxID_meas8_order6')
 Plant6 = c2d(ss(Blackbox_model),Ts,'tustin');
@@ -24,7 +24,7 @@ rho=1; % 0.042177e10 e12 e15
 poles=[-15, -16, -17, -18];
 L=(place(Ao',Co',exp(poles*Ts))');
 
-Q= diag([1,1,1,1])
+Q= Co'*Co %diag([0,0,1,1])
 % [1 0 0 0 0 0;...
 %     0 1 0 0 0 0;
 %     0 0 1 0 0 0;
@@ -36,4 +36,14 @@ R=1;
 
 [F,~,~]=dlqr(Ao,Bo,Q,R);
 
-Lcorr=1;
+RefFWD=[0;0;0;1/1209]
+
+[0,2.5,5,7.5,10,12.5,15,17.5,20]
+[0, 0 ,1, 1, 0, 0,  -1, -1 ,0]
+
+
+%Lcorr=inv(dcgain(ss(Ao-Bo*F,Bo,Co,Do,Ts)))
+
+cd ../SimulinkModels/
+
+sim('Crane_LQR_disc_noisy',30)
