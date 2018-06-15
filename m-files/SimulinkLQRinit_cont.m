@@ -19,8 +19,10 @@ plantAngle = Plant4(2,1);
 % margin(plantAngle)
 % DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
 % [A,B,C,D] = ssdata(DiscPlant);
-[A,B,C,D] = ssdata(Plant6);
+%[A,B,C,D] = ssdata(c2d(Plant6,Ts,'tustin'));
+[A,B,C,D] = ssdata(Plant4);
 %[A, B, C, D, P] = canon(A, B, C, D, 'companion')
+%[Ao,Bo,Co,Do] = ssdata(c2d(Plant4,Ts,'tustin'));
 [Ao,Bo,Co,Do] = ssdata(Plant4);
 %[Ao, Bo, Co, Do, Po] = canon(Ao, Bo, Co, Do, 'companion')
 %compan(Po)
