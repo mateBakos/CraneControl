@@ -1,0 +1,15 @@
+% Encoding: UTF-8
+
+@Article{Bruins2010,
+  author    = {Stefan Bruins},
+  title     = {Comparison of Different Control Algorithms for a Gantry Crane System},
+  journal   = {Intelligent Control and Automation},
+  year      = {2010},
+  volume    = {01},
+  number    = {02},
+  pages     = {68--81},
+  doi       = {10.4236/ica.2010.12008},
+  publisher = {Scientific Research Publishing, Inc,},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

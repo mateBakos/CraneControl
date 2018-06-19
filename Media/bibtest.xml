@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<file xmlns="http://bibtexml.sf.net/">
+    <entry id="Bruins2010">
+        <article>
+            <author>Stefan Bruins</author>
+            <title>Comparison of Different Control Algorithms for a Gantry Crane System </title>
+            <journal>Intelligent Control and Automation</journal>
+            <year>2010</year>
+            <volume>01</volume>
+            <number>2</number>
+            <pages>68--81</pages>
+            <doi>10.4236/ica.2010.12008</doi>
+        </article>
+    </entry>
+</file>
