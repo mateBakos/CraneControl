@@ -8,8 +8,8 @@ clear all
 validateFlag=1;
 
 % Validation Files 13-14
-% Identification 7-10
-measurementNum = 8;
+% Identification 7-10,15-16
+measurementNum = 16;
 validationNum = 14;
 
 % choose 4th or 6th order
@@ -54,6 +54,7 @@ inputx  = simData.Data(beginSample:end,4);
 angle1  = -simData.Data(beginSample:end,1);
 %angle1 = angle1 - angle1(1);
 angle   =  detrend(angle1);
+Bernoulli=[time,inputx];
 Ts=0.01;
 
 % Import original data
