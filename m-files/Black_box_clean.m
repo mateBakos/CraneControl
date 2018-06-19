@@ -5,7 +5,7 @@ clear all
 
 
 %% Config variables
-validateFlag=1;
+validateFlag=0;
 
 % Validation Files 13-14
 % Identification 7-10,15-16
