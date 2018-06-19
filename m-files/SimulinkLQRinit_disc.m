@@ -2,12 +2,12 @@ close all
 clear all 
 clc
 
-xinit=[0 0 0 0];
+xinit=[0 0 0 0 0 0];
 Ts=0.01;
 
-load('BlackBoxID_meas8_order6')
+load('BlackBoxID_meas16_order6')
 Plant6 = c2d(ss(Blackbox_model),Ts,'tustin');
-load('BlackBoxID_meas9_order4')
+load('BlackBoxID_meas16_order6')
 Plant4 = c2d(ss(Blackbox_model),Ts,'tustin');
 
 % DiscPlant=c2d(ss(Blackbox_model),Ts,'tustin');
@@ -21,12 +21,11 @@ Plant4 = c2d(ss(Blackbox_model),Ts,'tustin');
 
 rho=1; % 0.042177e10 e12 e15
 
-poles=[-15, -16, -17, -18];
+poles=[-15, -16, -17, -18, -19, -20];
 L=(place(Ao',Co',exp(poles*Ts))');
 
-Q= diag([0,0,1000,1])
-
-%Co'*Co 
+Q= Co'*Co%diag([0,0,0,0,100,100000])%%% 
+%
 % [1 0 0 0 0 0;...
 %     0 1 0 0 0 0;
 %     0 0 1 0 0 0;
@@ -38,10 +37,12 @@ R=1;
 
 [F,~,~]=dlqr(Ao,Bo,Q,R);
 
-RefFWD=[0;0;0;1/1209]
+Fcorr=pinv(dcgain(ss(Ao-Bo*F,Bo,Co,Do,Ts)))
 
-%Lcorr=inv(dcgain(ss(Ao-Bo*F,Bo,Co,Do,Ts)))
+RefFWD=Fcorr(1)%[0;0;0;0;0;Fcorr(1)]%[0;0;0;1/1209]
 
-%cd ../SimulinkModels/
 
-%sim('Crane_LQR_disc_noisy',30)
+
+cd ../SimulinkModels/
+
+sim('Crane_LQR_disc_noisy',30)
