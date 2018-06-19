@@ -18,13 +18,18 @@
 % and large variations in steady-state gain for some combinations of L and V. 
 % For more details, see Skogestad and Postlethwaite, _Multivariable Feedback Control_.
 %% Flags
+clear all
 plot_open_loop =0;
 %% Define model 
-clear all
-load BlackBoxID_meas8_order6.mat
+
+load BlackBoxID_meas16_order6.mat
 Plant = tf(Blackbox_model);
+anglePlant_normal = Plant(2,1);
 s = tf('s');
 posPlant = s*Plant;
+anglePlant = posPlant(2,1);
+
+[A,B,C,D] = ssdata(Blackbox_model);
 
 if(plot_open_loop)
 figure
@@ -40,10 +45,10 @@ subplot(122)
 step(posPlant(2,1),10)
 end
 
-%% Template model
-G = [87.8 -86.4 ; 108.2 -109.6]/(75*s+1);
-G.InputName = {'x-velocity'};
-G.OutputName = {'yD','yB'};
+%% Define inputs and outputs
+%G = [87.8 -86.4 ; 108.2 -109.6]/(75*s+1); model from template
+Plant.InputName  = {'controlInput'};
+Plant.OutputName = {'yPosition','yAngle'};
 
 %% Control Architecture
 % The control objectives are as follows:
@@ -57,7 +62,7 @@ G.OutputName = {'yD','yB'};
 % consists of a static decoupling matrix |DM| in series with two PI controllers for the 
 % reflux |L| and boilup |V|.
 
-open_system('rct_distillation')
+open_system('PID_Tuning')
 
 %% Controller Tuning in Simulink with LOOPTUNE
 % The |looptune| command provides a quick way to tune MIMO feedback loops. 
@@ -71,10 +76,11 @@ open_system('rct_distillation')
 % Use the |slTuner| interface to specify the tuned blocks, the controller I/Os, 
 % and signals of interest for closed-loop validation.
 
-ST0 = slTuner('rct_distillation',{'PI_L','PI_V','DM'});
+ST0 = slTuner('PID_Tuning',{'PID_position','PID_angle'});
 
 % Signals of interest
-addPoint(ST0,{'r','dL','dV','L','V','y'})
+%addPoint(ST0,{'r','dL','dV','L','V','y'})
+addPoint(ST0,{'rPosition','uAngle','uPosition','yPosition','yAngle','controlInput'})
 
 %%
 % Set the control bandwidth by specifying the gain crossover frequency
@@ -89,17 +95,17 @@ wc = 0.5;
 % The response to a step disturbance at the plant input should be well damped, 
 % settle in less than 20 minutes, and not exceed 4 in amplitude.
 
-OS = TuningGoal.Overshoot('r','y',15);
+OS = TuningGoal.Overshoot('rPosition','yAngle',15);
 
-DR = TuningGoal.StepRejection({'dL','dV'},'y',4,20);
+%DR = TuningGoal.StepRejection('rPosition','yAngle',4,20);
 
 %%
 % Next use |looptune| to tune the controller blocks |PI_L|, |PI_V|, and
 % |DM| subject to the disturbance rejection requirement.
 
-Controls = {'L','V'};
-Measurements = 'y';
-[ST,gam,Info] = looptune(ST0,Controls,Measurements,wc,OS,DR);
+Controls = {'controlInput'};
+Measurements = {'yPosition','yAngle'};
+[ST,gam,Info] = looptune(ST0,Controls,Measurements,wc,OS);%,DR);
 
 %%
 % The final value is near 1 which indicates that all requirements were met.
@@ -115,22 +121,22 @@ loopview(ST,Info)
 % show a good compromise between tracking and disturbance rejection.
 
 figure
-Ttrack = getIOTransfer(ST,'r','y');
+Ttrack = getIOTransfer(ST,'rPosition','yPos');
 step(Ttrack,40), grid, title('Setpoint tracking')
 
 %%
 
-Treject = getIOTransfer(ST,{'dV','dL'},'y');
-step(Treject,40), grid, title('Disturbance rejection')
+Ttrack = getIOTransfer(ST,'rPosition','yAngle');
+step(Treject,40), grid, title('Disturbance rejection Angle')
 
 %%
 % Comparing the open- and closed-loop disturbance rejection
 % characteristics in the frequency domain shows a clear improvement
-% inside the control bandwidth.
-
-clf, sigma(G,Treject), grid
-title('Principal gains from input disturbances to outputs')
-legend('Open-loop','Closed-loop')
+% % inside the control bandwidth.
+% 
+% clf, sigma(Plant,Treject), grid
+% title('Principal gains from input disturbances to outputs')
+% legend('Open-loop','Closed-loop')
 
 
 
@@ -138,8 +144,10 @@ legend('Open-loop','Closed-loop')
 % Inspection of the controller obtained above shows that the second
 % PI controller has negative gains.
 
-getBlockValue(ST,'PI_V')
+PID_pos = getBlockValue(ST,'PID_position')
+PID_angle = getBlockValue(ST,'PID_angle')
 
+sim('PID_Tuning_test')
 %%
 % This is due to the negative signs in the second input channels of the
 % plant $G$. In addition, the tunable elements are over-parameterized 
@@ -147,97 +155,31 @@ getBlockValue(ST,'PI_V')
 % does not change the overall controller. To address these issues, fix
 % the (1,1) entry of |DM| to 1 and the (2,2) entry to -1.
 
-DM = getBlockParam(ST0,'DM');
-DM.Gain.Value = diag([1 -1]);
-DM.Gain.Free = [false true;true false];
-setBlockParam(ST0,'DM',DM)
-
-%%
-% Re-tune the controller for the reduced set of tunable parameters.
-
-[ST,gam,Info] = looptune(ST0,Controls,Measurements,wc,OS,DR);
-
-%%
-% The step responses look similar but the values of |DM| and the PI gains
-% are more suitable for implementation.
-
-figure('Position',[0,0,700,350])
-
-subplot(121)
-Ttrack = getIOTransfer(ST,'r','y');
-step(Ttrack,40), grid, title('Setpoint tracking')
-
-subplot(122)
-Treject = getIOTransfer(ST,{'dV','dL'},'y');
-step(Treject,40), grid, title('Disturbance rejection')
-
-%%
-
-showTunable(ST)
-
-%% Equivalent Workflow in MATLAB
-% If you do not have a Simulink model of the control system, you can use LTI 
-% objects and Control Design blocks to create a MATLAB representation of the 
-% following block diagram.
-%
-% <<../distilldemo2.png>>
+% DM = getBlockParam(ST0,'DM');
+% DM.Gain.Value = diag([1 -1]);
+% DM.Gain.Free = [false true;true false];
+% setBlockParam(ST0,'DM',DM)
 % 
-% *Figure 2: Block Diagram of Control System*
-%
-% First parameterize the tunable elements using Control Design blocks.
-% Use the |tunableGain| object to parameterize |DM| and fix |DM(1,1)=1|
-% and |DM(2,2)=-1|.
-% This creates a 2x2 static gain with the off-diagonal entries as
-% tunable parameters. 
-
-DM = tunableGain('Decoupler',diag([1 -1]));
-DM.Gain.Free = [false true;true false];
-
-%%
-% Similarly, use the |tunablePID| object to parameterize the two PI controllers:
-
-PI_L = tunablePID('PI_L','pi');
-PI_V = tunablePID('PI_V','pi');
-
-%%
-% Next construct a model |C0| of the controller $C$ in Figure 2.
-
-C0 = blkdiag(PI_L,PI_V) * DM * [eye(2) -eye(2)];
-
-% Note: I/O names should be consistent with those of G
-C0.InputName = {'Dsp','Bsp','yD','yB'};
-C0.OutputName = {'L','V'};
-
-%%
-% Now tune the controller parameters with |looptune| as done previously.
-
-% Crossover frequency
-wc = 0.5;
-
-% Overshoot and disturbance rejection requirements
-OS = TuningGoal.Overshoot({'Dsp','Bsp'},{'yD','yB'},15);
-DR = TuningGoal.StepRejection({'L','V'},{'yD','yB'},4,20);
-
-% Tune controller gains
-[~,C] = looptune(G,C0,wc,OS,DR);
-
-%% 
-% To validate the design, close the loop with the tuned compensator |C|
-% and simulate the step responses for setpoint tracking and disturbance 
-% rejection. 
-
-Tcl = connect(G,C,{'Dsp','Bsp','L','V'},{'yD','yB'});
-
-figure('Position',[0,0,700,350])
-
-subplot(121)
-Ttrack = Tcl(:,[1 2]);
-step(Ttrack,40), grid, title('Setpoint tracking')
-
-subplot(122)
-Treject = Tcl(:,[3 4]);
-Treject.InputName = {'dL','dV'};
-step(Treject,40), grid, title('Disturbance rejection')
-
-%%
-% The results are similar to those obtained in Simulink.
+% %%
+% % Re-tune the controller for the reduced set of tunable parameters.
+% 
+% [ST,gam,Info] = looptune(ST0,Controls,Measurements,wc,OS,DR);
+% 
+% %%
+% % The step responses look similar but the values of |DM| and the PI gains
+% % are more suitable for implementation.
+% 
+% figure('Position',[0,0,700,350])
+% 
+% subplot(121)
+% Ttrack = getIOTransfer(ST,'r','y');
+% step(Ttrack,40), grid, title('Setpoint tracking')
+% 
+% subplot(122)
+% Treject = getIOTransfer(ST,{'dV','dL'},'y');
+% step(Treject,40), grid, title('Disturbance rejection')
+% 
+% %%
+% 
+% showTunable(ST)
+% 
