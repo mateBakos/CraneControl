@@ -16,7 +16,7 @@ validationNum = 14;
 orderNum = 6; 
 
 % change name to get around overwriting models
-saveName=['BlackBoxID_meas',num2str(measurementNum),'_order',num2str(orderNum),'.mat'];
+saveName=['BlackBoxID_meas',num2str(measurementNum),'_order',num2str(orderNum),'positive_angle.mat'];
 %% Load files
 simNames = loadmeasurementnames();
 
@@ -51,7 +51,7 @@ beginSample  = 1;%162;
 time     =  simData.Time(beginSample:end)-(beginSample-1)*0.01;
 position = simData.Data(beginSample:end,2);
 inputx  = simData.Data(beginSample:end,4);
-angle1  = -simData.Data(beginSample:end,1);
+angle1  = simData.Data(beginSample:end,1);
 %angle1 = angle1 - angle1(1);
 angle   =  detrend(angle1);
 Bernoulli=[time,inputx];
