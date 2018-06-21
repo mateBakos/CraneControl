@@ -1,7 +1,7 @@
 %% Import Simulation data;
-%close all
+close all
 clear all
-%clc
+clc
 
 
 %% Config variables
@@ -9,11 +9,11 @@ validateFlag=0;
 
 % Validation Files 13-14
 % Identification 7-10,15-16
-measurementNum = 16;
-validationNum = 14;
+measurementNum = 9;
+validationNum = 16;
 
 % choose 4th or 6th order
-orderNum = 6; 
+orderNum = 4; 
 
 % change name to get around overwriting models
 saveName=['BlackBoxID_meas',num2str(measurementNum),'_order',num2str(orderNum),'positive_angle.mat'];
@@ -30,7 +30,9 @@ end
     
 simData = loadfiles(measChosen{1});
 
-plot_timeseries(simData)
+%plot_timeseries(simData)
+%plotsimo(simData,'Open-loop measurement, validation data obtained by joystick')
+plotsimo(simData,'Open-loop measurement, constructed identification signal')
 
 if validateFlag==0
     titleTxt=['Estimation, order ',num2str(orderNum),' file ',measChosen{1}];
@@ -99,4 +101,12 @@ disp(['   Angle: ',num2str(FIT(2)),' %']);
 figure
 title(titleTxt)
 compare(data_filt,Blackbox_model)
-
+% fig=gcf
+% subplot 211
+% plot()
+% xlabel('Time[s]');
+% ylabel('Position [su]');
+% subplot 212
+% xlabel('Time[s]');
+% ylabel('Angle [rad]');
+% 
