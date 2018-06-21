@@ -22,7 +22,7 @@ clear all
 plot_open_loop =0;
 %% Define model 
 
-load BlackBoxID_meas16_order6.mat
+load BlackBoxID_meas16_order6_angle_corrected.mat
 Plant = tf(Blackbox_model);
 anglePlant_normal = Plant(2,1);
 s = tf('s');
