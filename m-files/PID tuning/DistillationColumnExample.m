@@ -124,7 +124,8 @@ legend('Open-loop','Closed-loop')
 % Inspection of the controller obtained above shows that the second
 % PI controller has negative gains.
 
-getBlockValue(ST,'PI_V')
+getBlockValue(ST,'PID_angle')
+getBlockValue(ST,'PID_position')
 
 %%
 % This is due to the negative signs in the second input channels of the
