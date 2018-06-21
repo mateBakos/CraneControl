@@ -1,3 +1,4 @@
+%% Run this section only for PID
 close all
 clear all 
 clc
@@ -17,6 +18,7 @@ Plant4 = c2d(ss(Blackbox_model),Ts,'tustin');
 [A,B,C,~,~] = obsvf(A,B,C);
 [Ao,Bo,Co,~,~] = obsvf(Ao,Bo,Co);
 
+%% Run also this section for LQR
 %[kalmf,L,P,M] = kalman(Plant4,1,eye(2));
 
 rho=1; % 0.042177e10 e12 e15
