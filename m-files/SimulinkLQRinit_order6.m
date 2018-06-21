@@ -3,7 +3,7 @@ clear all
 clc
 
 xinit=[0 0 0 0 0 0];
-Ts=0.01;
+Ts=0.1;
 
 load('BlackBoxID_meas16_order6')
 Plant6 = c2d(ss(Blackbox_model),Ts,'tustin');
@@ -24,7 +24,7 @@ rho=1; % 0.042177e10 e12 e15
 poles=[-15, -16, -17, -18, -19, -20];
 L=(place(Ao',Co',exp(poles*Ts))');
 
-Q=diag([0,0,0,0,200,1e7])% Co'*Co%%%% 
+Q=diag([0,0,0,0,1000,1e7])% Co'*Co%%%% 
 %
 % [1 0 0 0 0 0;...
 %     0 1 0 0 0 0;
