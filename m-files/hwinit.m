@@ -24,4 +24,4 @@ daoutoffs = [-1e-4 -2e-3];                               % output offset  [troll
 daoutgain = [0.1 0.2];                                   % output gain    [trolley hoist]
 
 ticklost = 500;                                          % max number of ticks lost
-h = 0.1;
+h = 0.01;

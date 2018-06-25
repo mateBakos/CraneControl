@@ -3,7 +3,7 @@ clear all
 clc
 
 xinit=[0 0 0 0 0 0];
-Ts=0.1;
+Ts=0.01;
 
 load('BlackBoxID_meas16_order6')
 Plant6 = c2d(ss(Blackbox_model),Ts,'tustin');
